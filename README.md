@@ -10,6 +10,6 @@ data, each one of them being anything such as nonce or ID."
 
 2. How do we structure the channel? If we're using mtypes, how do mtypes work?
 
-3. Are we sending a "message" message, or not?
+3. ~~Are we sending a "message" message, or not?~~
 
 4. Why is Alice sending her ID?
