@@ -8,7 +8,7 @@ active proctype Alice(){
 	pid Apid = _pid;
 
 	select(nonce : 0 .. 254);
-	printf("A pid=%d, nonce=%d\n",_pid,nonce);
+
 	// Send encrypted data (message, ID, and nonce) to Bob through chan
 	channel ! Apid,nonce;
     
@@ -27,7 +27,6 @@ active proctype Bob(){
     
 	// Receive encrypted data (message, ID, and nonce) from Alice through chan
 	channel ? Apid,Anonce ->
-	// Send both encrypted nonces
-	printf("A pid=%d, nonce=%d, B pid=%d\n",Apid,Anonce,_pid);
+	// Send both encrypted nonce
 	// Receive own nonce back
 }
