@@ -37,7 +37,7 @@ active proctype Alice(){
     message.data1 = aid;
     message.data2 = Anonce;
     int messageType = 1;
-    mtype receiverID = aid;
+    mtype receiverID = bid;
 
 // Send encrypted data (message, ID, and nonce) to Bob through chan
     channel ! message, messageType, receiverID;
