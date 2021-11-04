@@ -16,7 +16,7 @@ chan channel = [0] of { Packet }
 
 //starts communication as client
 active proctype Alice(){
-	bool confirmed = false;
+    bool confirmed = false;
     int Bnonce;
 
 // Construct message for first rendezvous
@@ -31,12 +31,12 @@ active proctype Alice(){
     packet.receiverID = bid;
 
 // Send encrypted data (message, ID, and nonce) to Bob through chan
-	channel ! packet;
+    channel ! packet;
     
     Packet recPacket;
     
 // Receive Bob's encrypted nonce and confirm Alice's encrypted nonce
-	channel ? recPacket;    
+    channel ? recPacket;    
     
     if
         :: recPacket.message.data1 == anonce ->
@@ -55,18 +55,18 @@ active proctype Alice(){
     packet.receiverID = bid;
     
 // Send back Bob's nonce
-	channel ! packet
-	printf("Alice's nonce is %d. Alice says Bob's nonce is %d\n", anonce, Bnonce);
+    channel ! packet
+    printf("Alice's nonce is %d. Alice says Bob's nonce is %d\n", anonce, Bnonce);
 }
 
 //recieves communication as server
 active proctype Bob(){
-	bool confirmed = false;
+    bool confirmed = false;
     
     Packet packet;
     
 // Receive encrypted data (message, ID, and nonce) from Alice through chan
-	channel ? packet;
+    channel ? packet;
     
 // Construct message for second rendezvous
     Message message;
@@ -79,12 +79,12 @@ active proctype Bob(){
     packet.receiverID = aid;
     
 // Send both encrypted nonce
-	channel ! packet;
+    channel ! packet;
 
     mtype x = bnonce;
 
 // Receive and confirm own nonce
-	channel ? eval(x)->
-		confirmed = true;
-	printf("Bob's nonce is %d. Bob says Alice's nonce is %d\n", nonce, Anonce);
+    channel ? eval(x)->
+        confirmed = true;
+    printf("Bob's nonce is %d. Bob says Alice's nonce is %d\n", nonce, Anonce);
 }
