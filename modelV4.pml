@@ -12,6 +12,8 @@ typedef Packet {
     mtype receiverID;
 };
 
+bool exited[2] = false;
+
 chan channel = [0] of { Packet }
 
 
@@ -23,8 +25,7 @@ chan channel = [0] of { Packet }
 ///_/    \_\_|_|\___\___|
 active proctype Alice(){
 
-		Packet recPacket;
-    bool confirmed = false;
+    Packet recPacket;
     int Anonce;
     select(Anonce : 1 .. 254);
     
@@ -51,7 +52,6 @@ active proctype Alice(){
 	    printf("Invalid packet\n")
             goto end;
     fi;
-    confirmed = true;
 
     Bnonce = recPacket.message.data2
 
@@ -61,10 +61,14 @@ active proctype Alice(){
     packet.message.data2 = aid;
     packet.messageType = 3;
     packet.receiverID = bid;
-    // Send back Bob's nonce
+
+// Send back Bob's nonce
     channel ! packet
     printf("Alice's nonce is %d. Alice says Bob's nonce is %d\n", anonce, Bnonce);
-end:printf("Alice Exits\n");
+
+end:
+    printf("Alice Exits\n");
+    exited[0] = true;
 }
 
 
@@ -114,5 +118,8 @@ active proctype Bob(){
     fi;
         
     printf("Bob's nonce is %d. Bob says Alice's nonce is %d\n", bnonce, anonce);
-end:printf("Bob Exit\n");
+
+end:
+    printf("Bob Exit\n");
+    exited[1] = true
 }
