@@ -1,4 +1,3 @@
-chan channel = [0] of { Packet }
 mtype = { akey, bkey, aid, bid, anonce, bnonce }
 
 typedef Message {
@@ -13,6 +12,8 @@ typedef Packet {
     mtype receiverID;
 };
 
+chan channel = [0] of { Packet }
+
 //starts communication as client
 active proctype Alice(){
 	bool confirmed = false;
@@ -25,7 +26,7 @@ active proctype Alice(){
     message.data2 = anonce;
     
     Packet packet;
-    packet.message = message;
+    packet.message = message; //Syntax error, but why?
     packet.messageType = 1;
     packet.receiverID = bid;
 
