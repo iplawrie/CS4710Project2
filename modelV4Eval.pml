@@ -91,7 +91,7 @@ active proctype Bob(){
     Message message;
     recPacket.messageType = 1;
     recPacket.receiverID = bid;
-    channel ? message, eval(recPacket.messageType), eval(recPacket.receiverID);
+    channel ?? message, eval(recPacket.messageType), eval(recPacket.receiverID);
     //if 
 	//:: packet.messageType == 1 && packet.receiverID == bid ->
 		//skip;
@@ -115,7 +115,7 @@ active proctype Bob(){
 // Receive and confirm own nonce
     recPacket.messageType = 3;
     recPacket.receiverID = bid;
-    channel ? message, eval(recPacket.messageType), eval(recPacket.receiverID);
+    channel ?? message, eval(recPacket.messageType), eval(recPacket.receiverID);
     
     //if 
 	//:: packet.messageType == 3 && packet.receiverID == bid && packet.message.data1 == Bnonce ->
