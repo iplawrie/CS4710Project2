@@ -45,7 +45,9 @@ active proctype Alice(){
     channel ? recPacket;
 		mtype x;
     if
-        :: recPacket.message.data1 != Anonce || recPacket.messageType != 2 || recPacket.receiverID != aid ->
+        :: recPacket.message.data1 == Anonce && recPacket.messageType == 2 && recPacket.receiverID == aid ->
+	    skip;
+	:: else->
 	    printf("Invalid packet\n")
             goto end;
     fi;
@@ -75,18 +77,19 @@ end:printf("Alice Exits\n");
 active proctype Bob(){
     bool confirmed = false;
     int Anonce;
-		int Bnonce;
+    int Bnonce;
     select(Bnonce : 1 .. 254);
     Packet packet;
 
 // Receive encrypted data (message, ID, and nonce) from Alice through chan
     channel ? packet;
     if 
-	:: packet.messageType != 1 || packet.receiverID != bid ->
+	:: packet.messageType == 1 && packet.receiverID == bid ->
+		skip;
+	:: else ->
 	    printf("Invalid messageType\n") 
 	    goto end;
     fi;
-	printf("here\n");
 
 		Anonce = packet.message.data2;
 // Construct message for second rendezvous
@@ -103,7 +106,9 @@ active proctype Bob(){
     channel ? packet;
     
     if 
-	:: packet.messageType != 3 || packet.receiverID != bid || packet.message.data1 != Bnonce ->
+	:: packet.messageType == 3 && packet.receiverID == bid && packet.message.data1 == Bnonce ->
+	    skip;
+	:: else->
 	    printf("Invalid messageType\n") 
 	    goto end;
     fi;
