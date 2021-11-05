@@ -8,9 +8,11 @@ typedef Message {
 
 bool exited[2] = false;
 
-chan channel = [0] of { mtype, mtype, mtype }
+chan channel = [0] of { Message, mtype, mtype }
 
-ltl liveness {<>(exited[0]==true && exited[1]==true)}
+ltl livenessAlice { <>(exited[0]==true) }
+ltl livenessBob { <>(exited[1] == true) }
+ltl liveness { <>(exited[0]==true && exited[1]==true) }
 
 //          _ _          
 //    /\   | (_)         
@@ -79,7 +81,7 @@ active proctype Bob(){
 
 // Construct message for second rendezvous
     message.key = akey;
-    message.data1 = message.data2;
+    message.data1 = Anonce;
     message.data2 = Bnonce;
     messageType = 2;
     receiverID = aid;
