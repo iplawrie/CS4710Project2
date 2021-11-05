@@ -95,6 +95,28 @@ active proctype Bob(){
     channel ?? message, eval(messageType), eval(receiverID);
         
     printf("Bob's nonce is %d. Bob says Alice's nonce is %d\n", Bnonce, Anonce);
-    printf("Bob Exit\n");
+    printf("Bob Exits\n");
     exited[1] = true;
+}
+
+//  _____ _                _ _      
+// / ____| |              | (_)     
+//| |    | |__   __ _ _ __| |_  ___ 
+//| |    | '_ \ / _` | '__| | |/ _ \
+//| |____| | | | (_| | |  | | |  __/
+// \_____|_| |_|\__,_|_|  |_|_|\___|
+active proctype charlie(){
+    int Cnonce;
+    select(Cnonce : 100 .. 150);
+    Message message;
+    int messageType;
+    mtype receiverID;
+
+//snoop for packet
+    channel ?? message, messageType, receiverID;
+    select(messageType: 1 .. 3);
+    select(receiverID: bid .. aid);
+
+    channel ! message, messageType, receiverID; //Forward received message
+    printf("Charlie Exits\n");
 }
