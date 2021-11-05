@@ -16,6 +16,7 @@ bool exited[2] = false;
 
 chan channel = [0] of { Packet }
 
+ltl liveness {<>(exited[0]==true && exited[1]==true)}
 
 //          _ _          
 //    /\   | (_)         
