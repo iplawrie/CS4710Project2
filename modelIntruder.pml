@@ -109,6 +109,7 @@ active proctype charlie(){
     int Cnonce;
     select(Cnonce : 100 .. 150);
     Message message;
+    Message newMessage;
     int messageType;
     mtype receiverID;
 
@@ -117,6 +118,29 @@ active proctype charlie(){
     select(messageType: 1 .. 3);
     select(receiverID: bid .. aid);
 
-    channel ! message, messageType, receiverID; //Forward received message
+    if
+    :: newMessage.data1 = aid;
+    :: newMessage.data1 = bid;
+    :: newMessage.data1 = Cnonce;
+    fi;
+    
+    if
+    :: newMessage.data2 = aid;
+    :: newMessage.data2 = bid;
+    :: newMessage.data2 = Cnonce;
+    fi;
+    
+    if
+    :: receiverID == bid ->
+        newMessage.key = bkey;
+    :: receiverID == aid ->
+        newMessage.key = akey;
+    fi;
+    
+    if
+    :: channel ! message, messageType, receiverID; //Forward received message
+    :: channel ! newMessage, messageType, receiverID; //Forward new message
+    fi;
+    
     printf("Charlie Exits\n");
 }
