@@ -122,12 +122,14 @@ active proctype charlie(){
     :: newMessage.data1 = aid;
     :: newMessage.data1 = bid;
     :: newMessage.data1 = Cnonce;
+    :: newMessage.data1 = message.data2
     fi;
     
     if
     :: newMessage.data2 = aid;
     :: newMessage.data2 = bid;
     :: newMessage.data2 = Cnonce;
+    :: newMessage.data2 = message.data1
     fi;
     
     if
