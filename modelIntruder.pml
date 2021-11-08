@@ -117,7 +117,7 @@ active proctype charlie(){
     channel ?? message, messageType, receiverID;
     select(messageType: 1 .. 3);
     select(receiverID: bid .. aid);
-
+//make a new message with values available to charlie
     if
     :: newMessage.data1 = aid;
     :: newMessage.data1 = bid;
